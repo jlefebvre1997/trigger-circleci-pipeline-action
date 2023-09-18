@@ -17,13 +17,17 @@ info(`Repo: ${repoName}`);
 const ref = context.ref;
 const headRef = process.env.GITHUB_HEAD_REF;
 
+info(`Ref : ${ref}, headRef : ${headRef}`);
+
 const getBranch = () => {
   if (ref.startsWith("refs/heads/")) {
+    info(`Not a PR. Using ref ${ref.substring(11)}`);
     return ref.substring(11);
-  } else if (ref.startsWith("refs/pull/") && headRef) {
+  } else if (headRef) {
     info(`This is a PR. Using head ref ${headRef} instead of ${ref}`);
     return headRef;
   }
+  info(`Default to ref ${ref}`);
   return ref;
 };
 const getTag = () => {
